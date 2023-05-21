@@ -4,7 +4,9 @@ import util.PayMethod;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Order {
@@ -13,6 +15,7 @@ public class Order {
     private final PayMethod payMethod;
     private final LocalDate orderDate;
     private LocalDate deliveryDate;
+    private static List<Order> orders = new ArrayList<>();
 
     public Order(Map<Product, Integer> products, PayMethod payMethod) {
         this.products = products;
@@ -20,6 +23,7 @@ public class Order {
         this.payMethod = payMethod;
         this.orderDate = LocalDate.now();
         setDeliveryDate();
+        orders.add(this);
     }
 
     public Order(Map<Product,Integer> products, PayMethod payMethod, LocalDate orderDate) {
@@ -28,6 +32,7 @@ public class Order {
         this.payMethod = payMethod;
         this.orderDate = orderDate;
         setDeliveryDate();
+        orders.add(this);
     }
 
     // Set order price
@@ -70,10 +75,11 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                ", products=" + products +
+                "products=" + products +
                 ", price=" + price +
                 ", payMethod=" + payMethod +
                 ", orderDate=" + orderDate +
+                ", deliveryDate=" + deliveryDate +
                 '}';
     }
 }
