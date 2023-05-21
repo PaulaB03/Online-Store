@@ -20,13 +20,13 @@ public class Driver extends Person {
 
     // Function to print today's deliveries
     public void printTodayDeliveries() {
-        if (deliveries == null || deliveries.size() == 0) {
+        if (deliveries.size() == 0) {
             System.out.println(NO_DRIVER_DELIVERIES);
             return;
         }
 
         for (Order delivery: deliveries)
-            if (delivery.getDeliveryDate() == LocalDate.now())
+            if (delivery.getDeliveryDate().equals(LocalDate.now()))
                 System.out.println(delivery);
     }
 

@@ -1,5 +1,7 @@
 package service.impl;
 
+import csv.OrderCSV;
+import csv.UserCSV;
 import exceptions.*;
 import model.*;
 import service.UserService;
@@ -14,15 +16,13 @@ import static validation.UserValidation.*;
 
 public class UserServiceImpl implements UserService {
     private final Scanner scanner = new Scanner(System.in);
-    private final List<User> users = new ArrayList<>();
+    private final List<User> users;
     private final StoreServiceImpl stores = new StoreServiceImpl();
     private User loggedIn = null;
 
     public UserServiceImpl() {
-        // Add some random users
-        addUser(new User("Andrei", "0788488578", new Address("Romania", "Bucuresti", "Carol", "3F"), "andrei@gmail.com", "Password55"));
-        addUser(new User("Andra", "0788488579", new Address("Romania", "Bucuresti", "Carol", "152", "B", "10"), "andra@gmail.com", "Password55"));
-        addUser(new User("Matei", "0788488573", new Address("Romania", "Bucuresti", "Carol", "5F"), "matei@gmail.com", "Password55"));
+        // Add users from CSV
+        users = UserCSV.getInstance().readUsersFromCSV();
 
         boolean loop = true;
         int choice;
@@ -179,7 +179,9 @@ public class UserServiceImpl implements UserService {
 
         Address address = Address.addAddress();
 
-        users.add(new User(name, phoneNumber, address, email, password));
+        User user = new User(name, phoneNumber, address, email, password);
+        users.add(user);
+        UserCSV.getInstance().writeUserToCSV(user);
         System.out.println(REGISTERED);
     }
 
@@ -269,7 +271,9 @@ public class UserServiceImpl implements UserService {
                 System.out.println(INVALID_INT);
         }
 
-        loggedIn.addOrder(new Order(products, pay));
+        Order order = new Order(products, pay);
+        OrderCSV.getInstance().writeOrderToCSV(order);
+        loggedIn.addOrder(order);
     }
 
     // Function to browse the stores

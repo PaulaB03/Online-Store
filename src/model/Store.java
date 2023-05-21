@@ -1,6 +1,7 @@
 package model;
 
 
+import csv.ProductCSV;
 import exceptions.ProductException;
 
 import java.util.ArrayList;
@@ -108,7 +109,9 @@ public class Store {
     }
 
     public void addProduct() {
-        products.add(Product.addProduct());
+        Product product = Product.addProduct();
+        products.add(product);
+        ProductCSV.getInstance().writeProductToCSV(product);
     }
 
     public void addProduct(Product product) {

@@ -1,5 +1,7 @@
 package model;
 
+import csv.AddressCSV;
+
 import java.util.Scanner;
 
 import static constants.InformationConstants.*;
@@ -28,12 +30,15 @@ public class Address {
         this.city = city;
         this.street = street;
         this.number = number;
+        entrance = null;
+        floor = null;
     }
 
     // Function to create an Address
     public static Address addAddress() {
         Scanner scanner = new Scanner(System.in);
         char choice;
+        Address address;
 
         System.out.println(VALUE + "county: ");
         String county = scanner.nextLine();
@@ -62,10 +67,13 @@ public class Address {
             System.out.println(VALUE + "floor: ");
             String floor = scanner.nextLine();
 
-            return new Address(county, city, street, number, entrance, floor);
+            address =  new Address(county, city, street, number, entrance, floor);
         }
+        else
+            address = new Address(county, city, street,number);
 
-        return new Address(county, city, street,number);
+        AddressCSV.getInstance().writeAddressToCSV(address);
+        return address;
     }
 
     // Setters and Getters
