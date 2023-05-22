@@ -56,3 +56,11 @@
 - ProductCSV: Reads/Writes Products from/to products.csv
 - UserCSV: Reads/Writes Users from/to users.csv
 - Audit: Writes what and when a read/write service has been called
+
+## Version 3
+
+### Database
+
+Created database that connects to JDBC. 
+
+Implements insert, read, update and delete actions.
