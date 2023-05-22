@@ -2,6 +2,7 @@ package model;
 
 
 import csv.ProductCSV;
+import database.DatabaseManager;
 import exceptions.ProductException;
 
 import java.util.ArrayList;
@@ -104,14 +105,15 @@ public class Store {
         if (index < 0 || index >= products.size())
             throw new ProductException(NO_PRODUCT);
 
-        products.remove(index);
+        DatabaseManager.getInstance().removeProduct(products.remove(index).getId());
         System.out.println(REMOVED_PRODUCT);
     }
 
     public void addProduct() {
         Product product = Product.addProduct();
         products.add(product);
-        ProductCSV.getInstance().writeProductToCSV(product);
+//        ProductCSV.getInstance().writeProductToCSV(product);
+        DatabaseManager.getInstance().insertProduct(product);
     }
 
     public void addProduct(Product product) {

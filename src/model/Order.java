@@ -46,16 +46,23 @@ public class Order {
 
     // Set delivery date (after 3 working days)
     private void setDeliveryDate() {
-        deliveryDate = orderDate.plusDays(3);
+        deliveryDate = orderDate;
 
-        while (deliveryDate.getDayOfWeek() == DayOfWeek.SATURDAY || deliveryDate.getDayOfWeek() == DayOfWeek.SUNDAY)
+        for (int i=0; i < 3; i++) {
             deliveryDate = deliveryDate.plusDays(1);
+
+            while (deliveryDate.getDayOfWeek() == DayOfWeek.SATURDAY || deliveryDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                deliveryDate = deliveryDate.plusDays(1);
+            }
+        }
     }
 
     // Getters
     public Map<Product, Integer> getProducts() {
         return products;
     }
+
+
 
     public double getPrice() {
         return price;

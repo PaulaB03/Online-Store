@@ -42,7 +42,7 @@ public class InformationConstants {
     public static final String VALUE = "Please enter the ";
     public static final String PASSWORD_ENTER = "Please enter your password: ";
     public static final String INCORRECT_PASSWORD = "The password you wrote was incorrect! Please try again or type 0 to return to the main menu!";
-    public static final String USER_INFORMATION_CHANGE = "What information would you like to change?\n1 - Name\n2 - Phone Number\n3 - Address\n4 - Password";
+    public static final String USER_INFORMATION_CHANGE = "What information would you like to change?\n1 - Name\n2 - Phone Number\n3 - Password";
     public static final String STORE_MENU = "Manage the store. What would you like to do?\n1 - View product list\n2 - Add a product\n3 - Remove a product\n4 - Update product information\n0 - EXIT MENU";
     public static final String USER_MENU = "What would you like to do?\n1 - Register\n2 - Login\n0 - EXIT MENU";
     public static final String OWNER_MENU = "What would you like to do?\n1 - View stores\n2 - Add store\n3 - Manage store\n0 - EXIT MENU";

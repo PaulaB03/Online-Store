@@ -2,6 +2,7 @@ package service.impl;
 
 import csv.OrderCSV;
 import csv.UserCSV;
+import database.DatabaseManager;
 import exceptions.*;
 import model.*;
 import service.UserService;
@@ -21,8 +22,9 @@ public class UserServiceImpl implements UserService {
     private User loggedIn = null;
 
     public UserServiceImpl() {
-        // Add users from CSV
-        users = UserCSV.getInstance().readUsersFromCSV();
+//        users = UserCSV.getInstance().readUsersFromCSV();
+        users = DatabaseManager.getInstance().getAllUsers();
+        System.out.println("-- User menu --");
 
         boolean loop = true;
         int choice;
@@ -44,6 +46,7 @@ public class UserServiceImpl implements UserService {
             switch (choice) {
                 case 0 -> {
                     loop = false;
+                    printUsers();
                     System.out.println(EXIT_USER_MENU);
                 }
                 case 1 -> register();
@@ -181,7 +184,8 @@ public class UserServiceImpl implements UserService {
 
         User user = new User(name, phoneNumber, address, email, password);
         users.add(user);
-        UserCSV.getInstance().writeUserToCSV(user);
+//        UserCSV.getInstance().writeUserToCSV(user);
+        DatabaseManager.getInstance().insertUser(user);
         System.out.println(REGISTERED);
     }
 
@@ -272,7 +276,8 @@ public class UserServiceImpl implements UserService {
         }
 
         Order order = new Order(products, pay);
-        OrderCSV.getInstance().writeOrderToCSV(order);
+//        OrderCSV.getInstance().writeOrderToCSV(order);
+        DatabaseManager.getInstance().insertOrder(order);
         loggedIn.addOrder(order);
     }
 
@@ -367,7 +372,7 @@ public class UserServiceImpl implements UserService {
 
             if (0 > choice || choice > 4)
                 System.out.println(INVALID_INT);
-        } while (0 > choice || choice > 4);
+        } while (0 > choice || choice > 3);
 
         if (!validateChoice())
             return ;
@@ -375,16 +380,19 @@ public class UserServiceImpl implements UserService {
         // Update set information
         switch (choice) {
             case 1 -> {
-                System.out.println(VALUE + "name: ");
-                loggedIn.setName(scanner.nextLine());
+                System.out.println(VALUE + "new name: ");
+                String name = scanner.nextLine();
+                loggedIn.setName(name);
+                DatabaseManager.getInstance().updateUserName(loggedIn.getEmail(), name);
             }
             case 2 -> {
-                System.out.println(VALUE + "phone number: ");
+                System.out.println(VALUE + "new phone number: ");
                 for (i = 0; i < 3; ++i) {
                     try {
                         String phoneNumber = scanner.nextLine();
                         if (validatePhoneNumber(phoneNumber)) {
                             loggedIn.setPhoneNumber(phoneNumber);
+                            DatabaseManager.getInstance().updateUserPhone(loggedIn.getEmail(), phoneNumber);
                             break;
                         }
                     } catch (PhoneNumberException e) {
@@ -395,14 +403,14 @@ public class UserServiceImpl implements UserService {
                     System.out.println(FORCED_EXIT);
                 }
             }
-            case 3 -> loggedIn.setAddress(Address.addAddress());
-            case 4 -> {
-                System.out.println(VALUE + "password: ");
+            case 3 -> {
+                System.out.println(VALUE + "new password: ");
                 for (i = 0; i < 3; ++i) {
                     try {
                         String password = scanner.nextLine();
                         if (validatePassword(password)) {
                             loggedIn.setPassword(password);
+                            DatabaseManager.getInstance().updateUserPassword(loggedIn.getEmail(), password);
                             break;
                         }
                     } catch (PasswordException e) {
