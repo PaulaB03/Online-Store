@@ -1,5 +1,6 @@
 package model;
 
+import database.DatabaseManager;
 import util.Category;
 
 import java.util.Scanner;
@@ -10,12 +11,20 @@ public class Product {
     private String name;
     private final Category category;
     private double price;
+    private int id;
     private final static Scanner scanner = new Scanner(System.in);
 
     public Product(String name, Category category, double price) {
         this.name = name;
         this.category = category;
         this.price = price;
+    }
+
+    public Product(String name, Category category, double price, int id) {
+        this.name = name;
+        this.category = category;
+        this.price = price;
+        this.id = id;
     }
 
     // Function to create a product
@@ -28,7 +37,7 @@ public class Product {
         Category category;
         while (true) {
             try {
-                System.out.println(VALUE + "category:(Electronics, Fashion, Pet, Sport, Games) ");
+                System.out.println(VALUE + "category:(Fashion, Pet, Sport, Games) ");
                 category = Category.valueOf(scanner.nextLine());
                 break;
             }
@@ -72,6 +81,8 @@ public class Product {
             }
         }
         setPrice(price);
+
+        DatabaseManager.getInstance().updateProduct(this);
     }
 
     // Setters and getters
@@ -95,6 +106,14 @@ public class Product {
         this.price = price;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     // ToString function
     @Override
     public String toString() {
@@ -102,6 +121,7 @@ public class Product {
                 " name='" + name + '\'' +
                 ", category=" + category +
                 ", price=" + price +
+                ", id=" + id +
                 '}';
     }
 }
